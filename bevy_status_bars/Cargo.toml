@@ -1,8 +1,13 @@
 [package]
-name = "bevy_status_bars"
+name = "stat_bars"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT OR Apache-2.0"
+keywords = ["bevy", "gamedev", "2d", "graphics", "sprites"]
+categories = ["game-development"]
+repository = "https://github.com/ickshonpe/stat_bars"
+description = "library for drawing health bars etc above sprites"
 
 [dependencies]
+bevy = "0.6"
+

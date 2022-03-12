@@ -1,12 +1,12 @@
 use crate::*;
 
 #[derive(Component)]
-pub struct StatusBarBorder {
+pub struct StatBarBorder {
     pub color: Color,
     pub thickness: f32,
 }
 
-impl Default for StatusBarBorder {
+impl Default for StatBarBorder {
     fn default() -> Self {
         Self { 
             color: Color::DARK_GRAY,
@@ -16,7 +16,7 @@ impl Default for StatusBarBorder {
 }
 
 #[derive(Component)]
-pub enum StatusBarOrientation {
+pub enum StatBarOrientation {
     /// left = 0.0, right = 1.0
     Horizontal,
     /// bottom = 0.0, top = 1.0
@@ -28,34 +28,34 @@ pub enum StatusBarOrientation {
     Angle { radians: f32 }
 }
 
-impl Default for StatusBarOrientation {
+impl Default for StatBarOrientation {
     fn default() -> Self {
         Self::Horizontal
     }
 }
 
 #[derive(Component)]
-pub struct StatusBarValue(pub f32);
+pub struct StatBarValue(pub f32);
 
-impl Default for StatusBarValue {
+impl Default for StatBarValue {
     fn default() -> Self {
         Self(1.0)
     }
 }
 
 #[derive(Component)]
-pub struct StatusBarColor(pub Color);
+pub struct StatBarColor(pub Color);
 
-impl Default for StatusBarColor {
+impl Default for StatBarColor {
     fn default() -> Self {
         Self(Color::WHITE)
     }
 }
 
 #[derive(Component)]
-pub struct StatusBarAlignment(pub Vec2);
+pub struct StatBarAlignment(pub Vec2);
 
-impl Default for StatusBarAlignment {
+impl Default for StatBarAlignment {
     fn default() -> Self {
         Self(0.5 * Vec2::ONE)
     }
@@ -63,12 +63,12 @@ impl Default for StatusBarAlignment {
 
 #[derive(Clone, Copy)]
 #[derive(Component)]
-pub struct StatusBarSize {
+pub struct StatBarSize {
     pub full_length: f32,
     pub thickness: f32,
 }
 
-impl Default for StatusBarSize {
+impl Default for StatBarSize {
     fn default() -> Self {
         Self {
             full_length: 100.0,
@@ -79,58 +79,25 @@ impl Default for StatusBarSize {
 
 
 #[derive(Component)]
-pub struct StatusBarZDepth(pub f32);
+pub struct StatBarZDepth(pub f32);
 
-impl Default for StatusBarZDepth {
+impl Default for StatBarZDepth {
     fn default() -> Self {
         Self(950.0)
     }
 }
 
 #[derive(Component)]
-pub struct StatusBarEmptyColor(pub Color);
+pub struct StatBarEmptyColor(pub Color);
 
-impl Default for StatusBarEmptyColor {
+impl Default for StatBarEmptyColor {
     fn default() -> Self {
         Self(Color::BLACK)
     }
 }
 
 #[derive(Component)]
-pub struct StatusBar {
-    pub value: f32,
-    pub z_depth: f32,
-    pub thickness: f32,
-    pub full_length: f32,
-    pub full_color: Color,
-    pub empty_color: Color,
-    pub alignment: Vec2,
-    pub border: Option<StatusBarBorder>,
-    pub orientation: StatusBarOrientation,  
-}
-
-impl Default for StatusBar {
-    fn default() -> Self {
-        Self { 
-            value: 0.8, 
-            z_depth: 900.0, 
-            thickness: 8.0, 
-            full_length: 64.0, 
-            full_color: Color::WHITE, 
-            empty_color: Color::BLACK, 
-            alignment: 0.5 * Vec2::ONE,
-            border: Some(Default::default()), 
-            orientation: Default::default() }
-    }
-}
-
+pub struct StatBarSubject(pub Entity);
 
 #[derive(Component)]
-pub struct StatusBarSprites {
-    pub border_sprite: Option<Entity>,
-    pub empty_sprite: Entity,
-    pub bar_sprite: Entity,
-}
-
-#[derive(Component)]
-pub struct StatusBarSubject(pub Entity);
+pub struct StatBarPosition(pub Vec2);

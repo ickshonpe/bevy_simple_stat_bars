@@ -7,40 +7,42 @@ use bevy::sprite::ExtractedSprite;
 use bevy::sprite::ExtractedSprites;
 use bevy::sprite::SpriteSystem;
 use copyless::VecHelper;
+use crate::prelude::*;
 
-use crate::prelude::StatusBarOrientation;
-use crate::*;
+const DEFAULT_BAR_Z_DEPTH: f32 = 950.0;
 
 fn extract_status_bars(
     mut render_world: ResMut<RenderWorld>,
     subject_query: Query<&GlobalTransform>,
     status_bar_query: Query<(
-        &StatusBarColor,
-        Option<&StatusBarEmptyColor>,
-        Option<&StatusBarBorder>,
-        &StatusBarValue,
-        &StatusBarSize,
-        &StatusBarSubject,
-        Option<&StatusBarZDepth>,
+        &StatBarColor,
+        Option<&StatBarEmptyColor>,
+        Option<&StatBarBorder>,
+        &StatBarValue,
+        &StatBarSize,
+        &StatBarSubject,
+        Option<&StatBarPosition>,
+        Option<&StatBarZDepth>,
     )>,
 ) {
     let mut extracted_sprites = render_world.get_resource_mut::<ExtractedSprites>().unwrap();
     for (
-        &StatusBarColor(color), 
+        &StatBarColor(color), 
         empty_color_option, 
         border_option, 
-        &StatusBarValue(value), 
+        &StatBarValue(value), 
         size, 
-        &StatusBarSubject(subject), 
+        &StatBarSubject(subject), 
+        position_option,
         z_option
     ) in status_bar_query.iter() {
-        let z_depth = z_option.map(|&StatusBarZDepth(z)| z).unwrap_or(DEFAULT_BAR_Z_DEPTH);
+        let position = position_option.map(|&StatBarPosition(p)| p).unwrap_or(Vec2::ZERO);
+        let z_depth = z_option.map(|&StatBarZDepth(z)| z).unwrap_or(DEFAULT_BAR_Z_DEPTH);
         if let Ok(translation) =
             subject_query
             .get(subject)
             .map(|subject_transform| 
-                subject_transform.translation
-                .truncate()
+                (subject_transform.translation.truncate() + position)
                 .extend(z_depth)
             ) {
                 
@@ -105,21 +107,21 @@ fn extract_status_bars(
 }
 
 #[derive(Debug, Hash, PartialEq, Eq, Clone, SystemLabel)]
-pub enum StatusBarSystem {
-    ExtractStatusBars,
+pub enum StatBarSystem {
+    ExtractStatBars,
 }
 
-pub struct RenderStatusBarsPlugin;
+pub struct RenderStatBarsPlugin;
 
-impl Plugin for RenderStatusBarsPlugin {
+impl Plugin for RenderStatBarsPlugin {
     fn build(&self, app: &mut App) {
 
         if let Ok(render_app) = app.get_sub_app_mut(RenderApp) {
             render_app
             .add_system_to_stage(
                 RenderStage::Extract,
-                render::extract_status_bars
-                .label(StatusBarSystem::ExtractStatusBars)
+                extract_status_bars
+                .label(StatBarSystem::ExtractStatBars)
                 .after(SpriteSystem::ExtractSprites)
             );
         }
