@@ -16,21 +16,15 @@ impl Default for StatBarBorder {
 }
 
 #[derive(Component)]
-pub enum StatBarOrientation {
-    /// left = 0.0, right = 1.0
-    Horizontal,
-    /// bottom = 0.0, top = 1.0
-    Vertical,
-    /// left = 1.0, right = 0.0
-    HorizontalReverse,
-    /// bottom = 1.0, top = 0.0
-    VerticalReverse,
-    Angle { radians: f32 }
+pub struct StatBarOrientation {
+    pub quat: Quat
 }
 
 impl Default for StatBarOrientation {
     fn default() -> Self {
-        Self::Horizontal
+        Self {
+            quat: Quat::IDENTITY
+        }
     }
 }
 

@@ -9,7 +9,7 @@ repository = "https://github.com/ickshonpe/bevy_simple_stat_bars"
 description = "draw stat bars that follow sprites"
 
 [dependencies.bevy]
-version = "0.6"
+version = "0.7"
 default-features = false
 features = ["render"]
 
@@ -17,5 +17,5 @@ features = ["render"]
 version = "0.1.5"
 
 [dev-dependencies.bevy]
-version = "0.6"
+version = "0.7"
 default-features = true

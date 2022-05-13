@@ -44,8 +44,7 @@ fn spawn_player(
             StatBarSubject(player),
             StatBarPosition(40.0 * Vec2::Y),
             component_observer(|hp: &Hp| hp.current as f32 / hp.max as f32)
-        ))
-        .id();    
+        ));
 
     commands
         .spawn_bundle((
@@ -57,8 +56,7 @@ fn spawn_player(
             StatBarSubject(player),
             StatBarPosition(50.0 * Vec2::Y),
             component_observer(|mp: &Mp| mp.current as f32 / mp.max as f32)
-        ))
-        .id(); 
+        ));
 }
 
 fn move_player(

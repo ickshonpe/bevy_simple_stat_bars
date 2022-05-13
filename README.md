@@ -1,4 +1,4 @@
-# stat bars
+#stat bars
 
 Simple library just for drawing stat bars 
 above sprites to display their health
@@ -8,7 +8,7 @@ Only goal is to be an easy to use crate that
 you can drop into any project and have stat bars 
 in less than ten minutes.
 
-* Targets Bevy 0.6
+* Targets Bevy 0.7
 * Only supports 2D.
 * Will never be super-customisable or fancy.
 * Only centered, horizontal bars atm. 
@@ -34,7 +34,7 @@ commands
     // initial value (0.0 is empty, 1.0 is full) (required) 
     StatBarValue(1.0),
 
-    // length and size (required)
+    // length and thickness of the bar (required)
     StatBarSize { full_length: 50.0, thickness: 6.0 },
 
     // entity the statbar tracks (required)
@@ -71,7 +71,11 @@ or scaling with the sprite they are tracking.
 Extremely unlikely to be a serious performance bottle neck though, unless you spawn
 10,000 stat bars at once or something.
 
-* You can have more than one stat bar track an entity. Just not
-at the same relative position, or they will draw on top of each other.
+* You can have more than one stat bar track a subject entity. Just make sure each has a different ```StatBarPosition```, so they don't all draw on top of each other.
 
-There is a complete-ish working example in the /examples folder
+* The ComponentObserver implementation is relatively slow, if you have a lot of status bars you might want to update StatusBarValue directly.
+The advantage of the component observer is seperation. You shouldn't need to make any changes to your existing entities and systems to use them.
+
+There is a complete-ish working example in the /examples folder.
+
+Any feedback / improvement suggestions / code submissions will be super appreciated.

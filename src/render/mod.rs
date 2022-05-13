@@ -23,6 +23,8 @@ fn extract_status_bars(
         &StatBarSubject,
         Option<&StatBarPosition>,
         Option<&StatBarZDepth>,
+        Option<&StatBarAlignment>,
+        Option<&StatBarOrientation>,
     )>,
 ) {
     let mut extracted_sprites = render_world.get_resource_mut::<ExtractedSprites>().unwrap();
@@ -34,7 +36,9 @@ fn extract_status_bars(
         size, 
         &StatBarSubject(subject), 
         position_option,
-        z_option
+        z_option,
+        _alignment_option,
+        _orientation_option,
     ) in status_bar_query.iter() {
         let position = position_option.map(|&StatBarPosition(p)| p).unwrap_or(Vec2::ZERO);
         let z_depth = z_option.map(|&StatBarZDepth(z)| z).unwrap_or(DEFAULT_BAR_Z_DEPTH);
@@ -62,6 +66,7 @@ fn extract_status_bars(
                         image_handle_id: DEFAULT_IMAGE_HANDLE.into(),
                         flip_x: false,
                         flip_y: false,
+                        anchor: Default::default()
                     }
                 );
             }
@@ -76,6 +81,7 @@ fn extract_status_bars(
                         image_handle_id: DEFAULT_IMAGE_HANDLE.into(),
                         flip_x: false,
                         flip_y: false,
+                        anchor: Default::default()
                     }
                 );
             }
@@ -98,6 +104,7 @@ fn extract_status_bars(
                         image_handle_id: DEFAULT_IMAGE_HANDLE.into(),
                         flip_x: false,
                         flip_y: false,
+                        anchor: Default::default()
                     }
                 );
             }
