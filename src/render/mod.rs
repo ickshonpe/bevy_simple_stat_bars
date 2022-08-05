@@ -1,7 +1,7 @@
 use bevy::prelude::*;
+use bevy::render::Extract;
 use bevy::render::RenderApp;
 use bevy::render::RenderStage;
-use bevy::render::RenderWorld;
 use bevy::render::texture::DEFAULT_IMAGE_HANDLE;
 use bevy::sprite::ExtractedSprite;
 use bevy::sprite::ExtractedSprites;
@@ -12,9 +12,9 @@ use crate::prelude::*;
 const DEFAULT_BAR_Z_DEPTH: f32 = 950.0;
 
 fn extract_status_bars(
-    mut render_world: ResMut<RenderWorld>,
-    subject_query: Query<&GlobalTransform>,
-    status_bar_query: Query<(
+    mut extracted_sprites: ResMut<ExtractedSprites>,
+    subject_query: Extract<Query<&GlobalTransform>>,
+    status_bar_query: Extract<Query<(
         &StatBarColor,
         Option<&StatBarEmptyColor>,
         Option<&StatBarBorder>,
@@ -25,9 +25,8 @@ fn extract_status_bars(
         Option<&StatBarZDepth>,
         Option<&StatBarAlignment>,
         Option<&StatBarOrientation>,
-    )>,
+    )>>,
 ) {
-    let mut extracted_sprites = render_world.get_resource_mut::<ExtractedSprites>().unwrap();
     for (
         &StatBarColor(color), 
         empty_color_option, 
@@ -46,7 +45,7 @@ fn extract_status_bars(
             subject_query
             .get(subject)
             .map(|subject_transform| 
-                (subject_transform.translation.truncate() + position)
+                (subject_transform.translation().truncate() + position)
                 .extend(z_depth)
             ) {
                 
@@ -59,6 +58,7 @@ fn extract_status_bars(
 
                 extracted_sprites.sprites.alloc().init(
                     ExtractedSprite {
+                        entity: subject,
                         transform: GlobalTransform::from_translation(translation),
                         color: border.color,
                         rect: None,
@@ -74,6 +74,7 @@ fn extract_status_bars(
             if let Some(empty_color) = empty_color_option {
                 extracted_sprites.sprites.alloc().init(
                     ExtractedSprite {
+                        entity: subject,
                         transform: GlobalTransform::from_translation(translation),
                         color: empty_color.0,
                         rect: None,
@@ -97,6 +98,7 @@ fn extract_status_bars(
 
                 extracted_sprites.sprites.alloc().init(
                     ExtractedSprite {
+                        entity: subject,
                         transform: GlobalTransform::from_translation(bar_translation),
                         color,
                         rect: None,
