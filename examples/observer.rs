@@ -126,7 +126,7 @@ fn main() {
     .insert_resource(ClearColor(Color::NAVY))
     .add_plugins(DefaultPlugins)
     .add_plugin(StatBarsPlugin)
-    .add_startup_system(|mut commands: Commands| { commands.spawn_bundle(OrthographicCameraBundle::new_2d()); })   
+    .add_startup_system(|mut commands: Commands| { commands.spawn_bundle(Camera2dBundle::default()); })   
     .add_startup_system(spawn_player)
     .add_system(move_player)
     .add_system(death)
