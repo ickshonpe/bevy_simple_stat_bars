@@ -3,6 +3,7 @@ pub mod components;
 pub mod bundles;
 pub mod render;
 mod despawn;
+pub mod observer2;
 
 pub mod prelude {
     pub use crate::components::*;
